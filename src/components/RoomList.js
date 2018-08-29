@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import './RoomList.css';
+import React from 'react'
 
-class RoomList extends Component {
-  render() {
-    console.log('this rooms', this.props.rooms)
-    return (
-      <div className="RoomList" style={{border: '1px solid pink'}}>
-        <ul>
-          <h3>your rooms</h3>
-        {this.props.rooms.map(room => {
-          return (
-            <li key={room.id}>
-              <a href="#">>{room.name}</a>
-            </li>
-          )
-        })}
-        </ul>
-      </div>
-    );
-  }
+class RoomList extends React.Component {
+    render () {
+        const orderedRooms = [...this.props.rooms].sort((a, b) => a.id > b.id)
+        return (
+            <div className="rooms-list">
+                <ul>
+                <h3>Your rooms:</h3>
+                    {orderedRooms.map(room => {
+                        const active = room.id === this.props.roomId ? 'active' : '';
+                        return (
+                            <li key={room.id} className={"room " + active}>
+                                <a
+                                    onClick={() => this.props.subscribeToRoom(room.id)}
+                                    href="#">
+                                    # {room.name}
+                                </a>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+        )
+    }
 }
 
-export default RoomList;
+export default RoomList
